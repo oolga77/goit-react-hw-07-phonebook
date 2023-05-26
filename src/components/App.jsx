@@ -1,55 +1,73 @@
+// import React from 'react';
+// import { ContactForm } from './ContactForm/ContactForm';
+// import { Filter } from './Filter/Filter';
+// import { ContactList } from './ContactList/ContactList';
+// import { useDispatch, useSelector } from 'react-redux';
+// import { useEffect } from 'react';
+// import { fetchContacts } from 'redux/operations';
+// import { Loader } from 'Loader/Loader';
+// import { selectContacts, selectError, selectIsLoading } from 'redux/selector';
+// import { Notification } from './Notification/Notification';
+
+// export const App = () => {
+//   const dispatch = useDispatch();
+//   const isLoading = useSelector(selectIsLoading);
+//   const error = useSelector(selectError);
+//   const contactList = useSelector(selectContacts);
+
+//   useEffect(() => {
+//     dispatch(fetchContacts());
+//   }, [dispatch]);
+
+//   return (
+//     <div
+//       style={{
+//         display: 'flex',
+//         flexDirection: 'column',
+//         justifyContent: 'center',
+//         alignItems: 'center',
+//         fontSize: 20,
+//         color: '#010101',
+//       }}
+//     >
+//       <h1>Phonebook</h1>
+//       <ContactForm />
+//       <h2> Contacts</h2>
+//       {contactList.length > 0 && <Filter />}
+//       {contactList.length === 0 ? (
+//         <Notification notification={'There are no contacts.'} />
+//       ) : (
+//         <ContactList />
+//       )}
+//       {isLoading && !error && <Loader />}
+//     </div>
+//   );
+// };
+
 import React from 'react';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchContacts } from 'redux/operations';
+
+import Filter from './Filter/Filter';
+
 import { ContactForm } from './ContactForm/ContactForm';
-import { Filter } from './Filter/Filter';
-import { ContactList } from './ContactList/ContactList';
 
-export const App = () => {
-  // const [contacts, setContacts] = useState(() => {
-  //   const saveContacts = localStorage.getItem('contacts');
+import { selectContacts, selectError, selectIsLoading } from 'redux/selector';
+import { Notification } from './Notification/Notification';
 
-  //   if (saveContacts !== null) {
-  //     const parsedContacts = JSON.parse(saveContacts);
-  //     return parsedContacts;
-  //   }
-  // });
+import ContactList from './ContactList/ContactList';
+import { Loader } from 'Loader/Loader';
 
-  // const [filter, setFilter] = useState('');
+export function App() {
+  const dispatch = useDispatch();
+  const isLoading = useSelector(selectIsLoading);
+  const error = useSelector(selectError);
+  const contactList = useSelector(selectContacts);
 
-  // useEffect(() => {
-  //   localStorage.setItem('contacts', JSON.stringify(contacts));
-  // }, [contacts]);
-
-  // const handleChange = e => {
-  //   const { value } = e.target;
-  //   setFilter(value);
-  // };
-
-  // const handleSubmit = e => {
-  //   const id = nanoid();
-  //   const name = e.name;
-  //   const number = e.number;
-  //   const contactsLists = [...contacts];
-
-  //   if (contactsLists.findIndex(contact => name === contact.name) !== -1) {
-  //     alert(`${name} is already in contacts.`);
-  //   } else {
-  //     contactsLists.push({ id, name, number });
-  //   }
-
-  //   setContacts(contactsLists);
-  // };
-
-  // const handleDelete = e => {
-  //   setContacts(contacts.filter(contact => contact.id !== e));
-  // };
-
-  // const getFilteredContacts = () => {
-  //   const filterContactsList = contacts.filter(contact => {
-  //     return contact.name.toLowerCase().includes(filter.toLowerCase());
-  //   });
-
-  //   return filterContactsList;
-  // };
+  useEffect(() => {
+    dispatch(fetchContacts());
+  }, [dispatch]);
 
   return (
     <div
@@ -65,8 +83,14 @@ export const App = () => {
       <h1>Phonebook</h1>
       <ContactForm />
       <h2> Contacts</h2>
-      <Filter />
-      <ContactList />
+
+      {contactList.length > 0 && <Filter />}
+      {contactList.length === 0 ? (
+        <Notification notification={'There are no contacts.'} />
+      ) : (
+        <ContactList />
+      )}
+      {isLoading && !error && <Loader />}
     </div>
   );
-};
+}
