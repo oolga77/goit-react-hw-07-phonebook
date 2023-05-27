@@ -5,12 +5,15 @@ export const List = styled.ul`
   padding-left: 25px;
 `;
 
-export const Item = styled.li`
+export const Item = styled.p`
+  color: #3a3c3d;
+`;
+
+export const Contact = styled.li`
   display: flex;
   justify-content: space-between;
-  margin-top: 25px;
-  font-size: 25px;
-  margi
+  margin-top: 15px;
+  font-size: 20px;
 `;
 export const DeleteBtn = styled.button`
   align-items: center;
